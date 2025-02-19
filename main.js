@@ -1,4 +1,4 @@
-const array = [
+const array = [ //tomb bevezetése
     // Fejléc adatok
     {
         column1: 'Fizika területe', // Az első oszlop címe
