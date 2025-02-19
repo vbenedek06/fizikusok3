@@ -1,0 +1,28 @@
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid black;  /* Egyszeres keret */
+    text-align: center;       /* Tartalom középre igazítása */
+    padding: 8px;
+  }
+  thead {
+    background-color: #ccc;   /* Fejléc háttérszíne */
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #e0f7fa;  /* Páratlan sor háttérszíne */
+  }
+  tbody tr:nth-child(even) {
+    background-color: #ffe0b2;  /* Páros sor háttérszíne */
+  }
+  
+  /* Validációs hibaüzenet helye a "fizika" inputhoz */
+  .error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 4px;
+    display: block;
+  }
+  
