@@ -58,29 +58,39 @@ const tableBody = document.createElement('tbody'); // Új táblázat törzs elem
 table.appendChild(tableBody); // A táblázat törzs hozzáadása a táblázathoz
 
 // Adatsorok létrehozása for ciklussal
-for (let i = 1; i < array.length; i++) { // Végigmegyünk az adatsorokon az elsőtől az utolsóig
-    const row = document.createElement('tr'); // Új sor létrehozása
-    tableBody.appendChild(row); // A sor hozzáadása a táblázat törzshöz
+// A rendertable függvény: csak a táblázat (az adatsorok) létrehozását tartalmazza
+function rendertable() {
+    // Táblázat törzs elemének létrehozása
+    const tableBody = document.createElement('tbody');  // Új törzsélem (<tbody>) létrehozása
+    table.appendChild(tableBody);                         // A törzs elem hozzáadása a táblázathoz
 
-    const cell1 = document.createElement('td'); // Új cella létrehozása
-    cell1.innerHTML = array[i].column1; // Az első oszlop értékének beállítása
-    row.appendChild(cell1); // Az első cella hozzáadása a sorhoz
+    // Adatsorok létrehozása for ciklussal (az index 1-től indul, mert az index 0 a fejléc)
+    for (let i = 1; i < array.length; i++) {              // Végigiterál az adatsorokon
+        const row = document.createElement('tr');         // Új sor (<tr>) létrehozása az aktuális adatsorhoz
+        tableBody.appendChild(row);                         // A sor hozzáadása a törzs elemhez
 
-    const cell2 = document.createElement('td'); // Új cella létrehozása
-    cell2.innerHTML = array[i].column2; // A második oszlop értékének beállítása
-    row.appendChild(cell2); // A második cella hozzáadása a sorhoz
+        const cell1 = document.createElement('td');        // Első cella (<td>) létrehozása
+        cell1.innerHTML = array[i].column1;                 // Az első cella tartalmának beállítása
+        row.appendChild(cell1);                             // Az első cella hozzáadása a sorhoz
 
-    const cell3 = document.createElement('td'); // Új cella létrehozása
-    cell3.innerHTML = array[i].column3; // A harmadik oszlop értékének beállítása
-    row.appendChild(cell3); // A harmadik cella hozzáadása a sorhoz
+        const cell2 = document.createElement('td');        // Második cella (<td>) létrehozása
+        cell2.innerHTML = array[i].column2;                 // A második cella tartalmának beállítása
+        row.appendChild(cell2);                             // A második cella hozzáadása a sorhoz
 
-    // Ellenőrzi, hogy az aktuális adatsor tartalmaz-e 'column4' értéket (azaz van-e negyedik oszlop)
-    if (array[i].column4) {
-        const cell4 = document.createElement('td'); // Létrehoz egy új cellát a negyedik oszlop számára
-        cell4.innerHTML = array[i].column4;// Beállítja a cella tartalmát az aktuális adatsor 'column4' értékére
-        row.appendChild(cell4);// Hozzáadja a negyedik cellát az aktuális sorhoz
-    } else {
-        // Ha nincs negyedik oszlop, a harmadik cella terjedjen ki két oszlopra
-        cell3.colSpan = 2;// Ha nincs 'column4', akkor a harmadik cella kitágul, és két oszlopot foglal el (colSpan = 2)
+        const cell3 = document.createElement('td');        // Harmadik cella (<td>) létrehozása
+        cell3.innerHTML = array[i].column3;                 // A harmadik cella tartalmának beállítása
+        row.appendChild(cell3);                             // A harmadik cella hozzáadása a sorhoz
+
+        // Ha az adatsor tartalmaz negyedik oszlopot, létrehozza azt; egyébként a harmadik cella kitágul két oszlopra
+        if (array[i].column4) {
+            const cell4 = document.createElement('td');   // Negyedik cella (<td>) létrehozása
+            cell4.innerHTML = array[i].column4;             // A negyedik cella tartalmának beállítása
+            row.appendChild(cell4);                         // A negyedik cella hozzáadása a sorhoz
+        } else {
+            cell3.colSpan = 2;                              // Ha nincs negyedik oszlop, a harmadik cella két oszlopot foglal el
+        }
     }
 }
+
+// Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
+rendertable();
