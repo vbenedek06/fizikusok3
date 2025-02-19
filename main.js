@@ -74,7 +74,13 @@ for (let i = 1; i < array.length; i++) { // Végigmegyünk az adatsorokon az els
     cell3.innerHTML = array[i].column3; // A harmadik oszlop értékének beállítása
     row.appendChild(cell3); // A harmadik cella hozzáadása a sorhoz
 
-    const cell4 = document.createElement('td'); // Új cella létrehozása
-    cell4.innerHTML = array[i].column4; // A negyedik oszlop értékének beállítása
-    row.appendChild(cell4); // A negyedik cella hozzáadása a sorhoz
+    // Ellenőrzi, hogy az aktuális adatsor tartalmaz-e 'column4' értéket (azaz van-e negyedik oszlop)
+    if (array[i].column4) {
+        const cell4 = document.createElement('td'); // Létrehoz egy új cellát a negyedik oszlop számára
+        cell4.innerHTML = array[i].column4;// Beállítja a cella tartalmát az aktuális adatsor 'column4' értékére
+        row.appendChild(cell4);// Hozzáadja a negyedik cellát az aktuális sorhoz
+    } else {
+        // Ha nincs negyedik oszlop, a harmadik cella terjedjen ki két oszlopra
+        cell3.colSpan = 2;// Ha nincs 'column4', akkor a harmadik cella kitágul, és két oszlopot foglal el (colSpan = 2)
+    }
 }
