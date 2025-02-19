@@ -60,7 +60,10 @@ table.appendChild(tableBody); // A táblázat törzs hozzáadása a táblázatho
 // Adatsorok létrehozása for ciklussal
 // A rendertable függvény: csak a táblázat (az adatsorok) létrehozását tartalmazza
 function rendertable() {
+    const tableHeader = document.createElement('thead'); // Táblázat fejléc elem létrehozása
+    table.appendChild(tableHeader); // A fejléc (thead) hozzáadása a táblázathoz (table)
     // Táblázat törzs elemének létrehozása
+
     const tableBody = document.createElement('tbody');  // Új törzsélem (<tbody>) létrehozása
     table.appendChild(tableBody);                         // A törzs elem hozzáadása a táblázathoz
 
@@ -92,5 +95,32 @@ function rendertable() {
     }
 }
 
+
 // Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
 rendertable();
+
+// Eseménykezelő hozzáadása az űrlap submit eseményéhez
+document.getElementById('form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
+
+    // Az űrlap mezőinek értékeinek lekérése
+    const subject = document.getElementById('fizika').value;       // "Fizika területe" értéke
+    const period = document.getElementById('ido').value;           // "Időszak" értéke
+    const scientist1 = document.getElementById('tudos1').value;   // Első tudós neve
+    const scientist2 = document.getElementById('tudos2').value;   // Második tudós neve (opcionális)
+
+   
+    const newRow = { // Létrehoz egy új objektumot az űrlap mezőinek értékeivel.
+        column1: subject, // Az objektum `field1` mezőjéhez az `fizika` mező értéke kerül.
+        column2: period, // Az objektum `field2` mezőjéhez az `ido` mező értéke kerül.
+        column3: scientist1, // Az objektum `field3` mezőjéhez a `tudos1` mező értéke kerül.
+        column4: scientist2 // Az objektum `field4` mezőjéhez a `tudos2` mező értéke kerül.
+    }
+
+    // Opcionálisan visszaállítja az űrlap mezőit
+    array.push(newRow);//hozzadja az uj elemet
+    table.innerHTML = ''// lenulláza a table erteket
+    table.appendChild(tableHeader);  // Újra hozzáadja a fejlécet a táblázathoz
+    this.reset();//kiurit
+    rendertable();//frissiti a tablázatot
+});
