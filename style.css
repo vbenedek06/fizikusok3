@@ -19,7 +19,7 @@ table {
   }
   
   /* Validációs hibaüzenet helye a "fizika" inputhoz */
-  .error-message {
+  .error {
     color: red;
     font-size: 0.9em;
     margin-top: 4px;

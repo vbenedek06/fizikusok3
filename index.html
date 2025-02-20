@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Fizika</title>
-    <meta charset="utf8">
-    <link rel="stylesheet" href="style.css">
+    <head>
+        <title>Fizika</title>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="style.css">
 
-</head>
-<body>
+    </head>
+    <body>
 
         <form id="form" action="#">
-            <label for="fizika">Terület megnevezése</label><br>
-            <input type="text" id="fizika" name="fizika"><br><br>
-    
-            <label for="ido">Időszak:</label><br>
-            <input type="text" id="ido" name="ido"><br><br>
-    
-            <label for="tudos1">Első tudós:</label><br>
-            <input type="text" id="tudos1" name="tudos1"><br><br>
+            <div>
+                <label for="fizika">Terület megnevezése</label><br>
+                <input type="text" id="fizika" name="fizika"><br><br>
+                <div class="error"></div>
+            </div>
 
-            <label for="tudos2">Második tudós:</label><br>
-            <input type="text" id="tudos2" name="tudos2"><br><br>
-    
+            <div>
+                <label for="ido">Időszak:</label><br>
+                <input type="text" id="ido" name="ido"><br><br>
+                <div class="error"></div>
+            </div>
+
+            <div><label for="tudos1">Első tudós:</label><br>
+                <input type="text" id="tudos1" name="tudos1"><br><br>
+                <div class="error"></div>            </div>
+
+            <div><label for="tudos2">Második tudós:</label><br>
+                <input type="text" id="tudos2" name="tudos2"><br><br>
+                <div class="error"></div>
+            </div>
+
             <button>Hozzáadás</button>
         </form>
-</body>
-<script src="main.js"></script>
+    </body>
+    <script src="main.js"></script>
 </html>

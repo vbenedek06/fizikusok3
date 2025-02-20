@@ -103,30 +103,49 @@ rendertable();
 document.getElementById('form').addEventListener('submit', function(e) {
     e.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
 
+    const subjectHtmlElement = document.getElementById('fizika') // elkerem a htmlelementet, amely az vezeteknev id-val van definialva
+    const timeHtmlElement = document.getElementById('ido') // elkerem a htmlelementet, amely az keresztnev id-val van definialva
+    const scientist1HtmlElement = document.getElementById('tudos1') // elkerem a htmlelementet, amely az keresztnev2 id-val van definialva
+    const scientist2HtmlElement = document.getElementById('tudos2') // elkerem a htmlelementet, amely az keresztnev2 id-val van definialva
+
+
     // Az űrlap mezőinek értékeinek lekérése
-    const subject = document.getElementById('fizika').value;       // "Fizika területe" értéke
-    const time = document.getElementById('ido').value;           // "Időszak" értéke
-    const scientist1 = document.getElementById('tudos1').value;   // Első tudós neve
-    const scientist2 = document.getElementById('tudos2').value;   // Második tudós neve (opcionális)
+    const subject = subjectHtmlElement.value;       // "Fizika területe" értéke
+    const time = timeHtmlElement.value;           // "Időszak" értéke
+    const scientist1 = scientist1HtmlElement.value;   // Első tudós neve
+    const scientist2 = scientist2HtmlElement.value;   // Első tudós neve
 
    
-    const newRow = { // Létrehoz egy új objektumot az űrlap mezőinek értékeivel.
-        column1: subject, // Az objektum `field1` mezőjéhez az `fizika` mező értéke kerül.
-        column2: time, // Az objektum `field2` mezőjéhez az `ido` mező értéke kerül.
-        column3: scientist1, // Az objektum `field3` mezőjéhez a `tudos1` mező értéke kerül.
-        column4: scientist2 // Az objektum `field4` mezőjéhez a `tudos2` mező értéke kerül.
+   
+    let valid = true; // valid változó kezdeti értéke: true
+    if (subject === '') {
+        const parent = subjectHtmlElement.parentElement;
+        const errorPlace = parent.querySelector('.error');
+        if (errorPlace !== undefined) {
+            errorPlace.innerHTML = 'Kérem, töltse ki a Fizika területe mezőt!';
+        }
+        valid = false;
     }
-
-     // Validáció: Ha a kötelező mezők (fizika és ido) üresek, ne folytassa a műveletet
-     if (subject === '' || time === '') {
-        alert('Kérem, töltse ki a kötelező mezőket: Fizika területe és Időszak!');
-        return; // Kilép a függvényből, így nem kerül hozzáadásra új sor
+    if (time === '') {
+        const parent = timeHtmlElement.parentElement;
+        const errorPlace = parent.querySelector('.error');
+        if (errorPlace !== undefined) {
+            errorPlace.innerHTML = 'Kérem, töltse ki az Időszak mezőt!';
+        }
+        valid = false;
     }
+    if (valid) {
+        const newRow = {
+            column1: subject,
+            column2: time,
+            column3: scientist1,
+            column4: scientist2
+        };
+        array.push(newRow);//hozzadja az uj elemet
+        table.innerHTML = ''// lenulláza a table erteket
+        table.appendChild(tableHeader);  // Újra hozzáadja a fejlécet a táblázathoz
+        this.reset();//kiurit
+        rendertable();//frissiti a tablázatot
 
-    // Opcionálisan visszaállítja az űrlap mezőit
-    array.push(newRow);//hozzadja az uj elemet
-    table.innerHTML = ''// lenulláza a table erteket
-    table.appendChild(tableHeader);  // Újra hozzáadja a fejlécet a táblázathoz
-    this.reset();//kiurit
-    rendertable();//frissiti a tablázatot
+    }
 });
