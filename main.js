@@ -105,16 +105,22 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
     // Az űrlap mezőinek értékeinek lekérése
     const subject = document.getElementById('fizika').value;       // "Fizika területe" értéke
-    const period = document.getElementById('ido').value;           // "Időszak" értéke
+    const time = document.getElementById('ido').value;           // "Időszak" értéke
     const scientist1 = document.getElementById('tudos1').value;   // Első tudós neve
     const scientist2 = document.getElementById('tudos2').value;   // Második tudós neve (opcionális)
 
    
     const newRow = { // Létrehoz egy új objektumot az űrlap mezőinek értékeivel.
         column1: subject, // Az objektum `field1` mezőjéhez az `fizika` mező értéke kerül.
-        column2: period, // Az objektum `field2` mezőjéhez az `ido` mező értéke kerül.
+        column2: time, // Az objektum `field2` mezőjéhez az `ido` mező értéke kerül.
         column3: scientist1, // Az objektum `field3` mezőjéhez a `tudos1` mező értéke kerül.
         column4: scientist2 // Az objektum `field4` mezőjéhez a `tudos2` mező értéke kerül.
+    }
+
+     // Validáció: Ha a kötelező mezők (fizika és ido) üresek, ne folytassa a műveletet
+     if (subject === '' || time === '') {
+        alert('Kérem, töltse ki a kötelező mezőket: Fizika területe és Időszak!');
+        return; // Kilép a függvényből, így nem kerül hozzáadásra új sor
     }
 
     // Opcionálisan visszaállítja az űrlap mezőit
