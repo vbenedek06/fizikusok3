@@ -117,12 +117,14 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
    
    
-    let valid = true; // valid változó kezdeti értéke: true
-    if(!simpleValidation(subjectHtmlElement, "A terület kitöltése kötelező")) { // Ellenőrzi, hogy a fizika mező ki van e töltve.
+    let valid = true;
+    if (!simpleValidateField(subjectHtmlElement, "A terület kitöltése kötelező")) {
         valid = false;
     }
-    
-    if(!simpleValidation(timeHtmlElement, "Az időszak kitöltése kötelező")) { // Ellenőrzi, hogy az idő mező ki van e töltve.
+    if (!simpleValidateField(timeHtmlElement, "Az időszak kitöltése kötelező")) {
+        valid = false;
+    }
+    if (!secondValidation(scientist1HtmlElement, scientist2HtmlElement)) {
         valid = false;
     }
     if (valid) {
@@ -140,7 +142,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
     }
 });
-function simpleValidation(inputelem, errorMessage) { // Definiáljuk a simpleValidation függvényt
+function simpleValidateField(inputelem, errorMessage) { // Definiáljuk a simpleValidateField függvényt
     let valid = true; // Definiáljuk a valid lokális változót true értékkel
     if(inputelem.value === ''){ // Ha a paraméterben kapott beviteli mező üres
         const parentElement = inputelem.parentElement; // Eltároljuk a mező szülő elemét
@@ -151,4 +153,19 @@ function simpleValidation(inputelem, errorMessage) { // Definiáljuk a simpleVal
         valid = false; // Ha hiba van, a valid változó értéke hamisra változik.
     }
     return valid; // Visszatér a valid változóval.
+}
+function secondValidation(scientist1element,scientist2element){
+    let valid = true 
+
+    if (scientist1element.value === '' && scientist2element.value === ''){
+        const errorMessage = "Legalább egy tudóst meg kell adni"
+
+        if (!simpleValidateField(scientist1element, errorMessage)){
+        valid = false;
+        }
+        if (!simpleValidateField(scientist2element, errorMessage)){
+        valid = false;
+        }
+    }
+    return valid
 }
