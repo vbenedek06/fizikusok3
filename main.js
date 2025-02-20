@@ -118,20 +118,11 @@ document.getElementById('form').addEventListener('submit', function(e) {
    
    
     let valid = true; // valid változó kezdeti értéke: true
-    if (subject === '') {
-        const parent = subjectHtmlElement.parentElement;
-        const errorPlace = parent.querySelector('.error');
-        if (errorPlace !== undefined) {
-            errorPlace.innerHTML = 'Kérem, töltse ki a Fizika területe mezőt!';
-        }
+    if(!simpleValidation(subjectHtmlElement, "A terület kitöltése kötelező")) { // Ellenőrzi, hogy a fizika mező ki van e töltve.
         valid = false;
     }
-    if (time === '') {
-        const parent = timeHtmlElement.parentElement;
-        const errorPlace = parent.querySelector('.error');
-        if (errorPlace !== undefined) {
-            errorPlace.innerHTML = 'Kérem, töltse ki az Időszak mezőt!';
-        }
+    
+    if(!simpleValidation(timeHtmlElement, "Az időszak kitöltése kötelező")) { // Ellenőrzi, hogy az idő mező ki van e töltve.
         valid = false;
     }
     if (valid) {
@@ -149,3 +140,15 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
     }
 });
+function simpleValidation(inputelem, errorMessage) { // Definiáljuk a simpleValidation függvényt
+    let valid = true; // Definiáljuk a valid lokális változót true értékkel
+    if(inputelem.value === ''){ // Ha a paraméterben kapott beviteli mező üres
+        const parentElement = inputelem.parentElement; // Eltároljuk a mező szülő elemét
+        const errorPlace = parentElement.querySelector('.error'); // A szülő elemben megkeressük az "error-message" osztályú elemet
+        if(errorPlace != undefined){ // Ha van hibajelzés
+            errorPlace.innerHTML = errorMessage; // Ha már van ilyen hibaüzenet, akkor cseréljük át.
+        }
+        valid = false; // Ha hiba van, a valid változó értéke hamisra változik.
+    }
+    return valid; // Visszatér a valid változóval.
+}
