@@ -37,7 +37,7 @@ document.body.appendChild(table);
 
 // Függvény a fejléc generálásához
 function generateTableHeader(headerData, tableHeader) {
-        // Létrehozunk egy új sort (<tr>) a fejléc számára
+    // Létrehozunk egy új sort (<tr>) a fejléc számára
     const headerRow = document.createElement('tr');
 
     // Végigiterálunk a fejléc objektum kulcsain
@@ -62,7 +62,7 @@ function generateTableHeader(headerData, tableHeader) {
 
 
 // Adatsorok létrehozása for ciklussal
-function rendertable(data){// meadunk egy data nevu parametert aminek majd az array erteket fogja felvenni
+function rendertable(data) {// meadunk egy data nevu parametert aminek majd az array erteket fogja felvenni
     const tableHeader = document.createElement('thead'); // Táblázat fejléc létrehozása
     table.appendChild(tableHeader); // Fejléc hozzáadása a táblázathoz
 
@@ -105,8 +105,56 @@ function rendertable(data){// meadunk egy data nevu parametert aminek majd az ar
 // Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
 rendertable(array)
 
+function generateForm() {
+    var form = document.createElement('form');
+    form.id = 'form';
+    form.action = '#';
+
+    var columns = [
+        { label: 'Terület megnevezése', id: 'fizika', type: 'text' },
+        { label: 'Időszak', id: 'ido', type: 'text' },
+        { label: 'Első tudós', id: 'tudos1', type: 'text' },
+        { label: 'Második tudós', id: 'tudos2', type: 'text' }
+    ];
+
+    for (var i = 0; i < columns.length; i++) {
+        var column = columns[i];
+        var div = document.createElement('div');
+
+        var label = document.createElement('label');
+        label.htmlFor = column.id;
+        label.innerText = column.label;
+        div.appendChild(label);
+
+        div.appendChild(document.createElement('br'));
+
+        var input = document.createElement('input');
+        input.type = column.type;
+        input.id = column.id;
+        input.name = column.id;
+        div.appendChild(input);
+
+        div.appendChild(document.createElement('br'));
+        div.appendChild(document.createElement('br'));
+
+        var errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        div.appendChild(errorDiv);
+
+        form.appendChild(div);
+    }
+
+    var submit = document.createElement('button');
+    submit.innerText = 'Hozzáadás';
+    form.appendChild(submit);
+    document.body.appendChild(form);
+    return form;
+}
+
+var form = generateForm();
+
 // Eseménykezelő hozzáadása az űrlap submit eseményéhez
-document.getElementById('form').addEventListener('submit', function(e) {
+form.addEventListener('submit', function (e) {
     e.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
 
     const subjectHtmlElement = document.getElementById('fizika') // elkerem a htmlelementet, amely az vezeteknev id-val van definialva
@@ -121,20 +169,20 @@ document.getElementById('form').addEventListener('submit', function(e) {
     const scientist1 = scientist1HtmlElement.value;   // Első tudós neve
     const scientist2 = scientist2HtmlElement.value;   // Első tudós neve
 
-   
-   
+
+
     let valid = true;
-        // Ellenőrizzük, hogy a "Fizika területe" mező nincs-e üresen
+    // Ellenőrizzük, hogy a "Fizika területe" mező nincs-e üresen
 
-    if (!simpleValidateField(subjectHtmlElement, "A terület kitöltése kötelező")) {
+    if (!simpleValidatecolumn(subjectHtmlElement, "A terület kitöltése kötelező")) {
         valid = false;
     }
-        // Ellenőrizzük, hogy az "Időszak" mező nincs-e üresen
+    // Ellenőrizzük, hogy az "Időszak" mező nincs-e üresen
 
-    if (!simpleValidateField(timeHtmlElement, "Az időszak kitöltése kötelező")) {
+    if (!simpleValidatecolumn(timeHtmlElement, "Az időszak kitöltése kötelező")) {
         valid = false;
     }
-        // Ellenőrizzük, hogy legalább egy tudós mező ki van-e töltve
+    // Ellenőrizzük, hogy legalább egy tudós mező ki van-e töltve
 
     if (!secondValidation(scientist1HtmlElement, scientist2HtmlElement)) {
         valid = false;
@@ -150,18 +198,28 @@ document.getElementById('form').addEventListener('submit', function(e) {
         array.push(newRow);//hozzadja az uj elemet
         table.innerHTML = ''// lenulláza a table erteket
         this.reset();//kiurit
+
+        // Kiválasztja az űrlapban lévő összes olyan elemet, amelyeknek az osztálya "error"
+        var errorElements = form.querySelectorAll('.error');
+        // Végigiterál az összes kiválasztott hibaüzenet elemen
+
+        for (var i = 0; i < errorElements.length; i++) {
+            // Az aktuális hibaüzenet tartalmát üresre állítja (törli a hibaüzenetet)
+            errorElements[i].innerHTML = '';
+        }
+        // Újrarendereli a táblázatot a frissített "array" tömb alapján
         rendertable(array);//frissiti a tablázatot
 
     }
 });
 // Függvény az input mezők egyszerű érvényesítésére (ellenőrzi, hogy nem üres-e)
 
-function simpleValidateField(inputelem, errorMessage) { // Definiáljuk a simpleValidateField függvényt
+function simpleValidatecolumn(inputelem, errorMessage) { // Definiáljuk a simpleValidatecolumn függvényt
     let valid = true; // Definiáljuk a valid lokális változót true értékkel
-    if(inputelem.value === ''){ // Ha a paraméterben kapott beviteli mező üres
+    if (inputelem.value === '') { // Ha a paraméterben kapott beviteli mező üres
         const parentElement = inputelem.parentElement; // Eltároljuk a mező szülő elemét
         const errorPlace = parentElement.querySelector('.error'); // A szülő elemben megkeressük az "error-message" osztályú elemet
-        if(errorPlace != undefined){ // Ha van hibajelzés
+        if (errorPlace != undefined) { // Ha van hibajelzés
             errorPlace.innerHTML = errorMessage; // Ha már van ilyen hibaüzenet, akkor cseréljük át.
         }
         valid = false; // Ha hiba van, a valid változó értéke hamisra változik.
@@ -170,20 +228,21 @@ function simpleValidateField(inputelem, errorMessage) { // Definiáljuk a simple
 }
 // Függvény, amely ellenőrzi, hogy legalább az egyik tudós mező ki van-e töltve
 
-function secondValidation(scientist1element,scientist2element){
-    let valid = true 
+function secondValidation(scientist1element, scientist2element) {
+    let valid = true
 
-    if (scientist1element.value === '' && scientist2element.value === ''){
+    if (scientist1element.value === '' && scientist2element.value === '') {
         const errorMessage = "Legalább egy tudóst meg kell adni"
-        // Ellenőrizzük a simpleValidateField függvénnyel az első tudós mezőt
+        // Ellenőrizzük a simpleValidatecolumn függvénnyel az első tudós mezőt
 
-        if (!simpleValidateField(scientist1element, errorMessage)){
-        valid = false;
+        if (!simpleValidatecolumn(scientist1element, errorMessage)) {
+            valid = false;
         }
-        // Ellenőrizzük a simpleValidateField függvénnyel a második tudós mezőt
-        if (!simpleValidateField(scientist2element, errorMessage)){
-        valid = false;
+        // Ellenőrizzük a simpleValidatecolumn függvénnyel a második tudós mezőt
+        if (!simpleValidatecolumn(scientist2element, errorMessage)) {
+            valid = false;
         }
     }
     return valid
 }
+
