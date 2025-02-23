@@ -35,7 +35,15 @@ const array = [ //tomb bevezetése
 const table = document.createElement('table'); // Táblázat létrehozása
 document.body.appendChild(table);
 
-// Függvény a fejléc generálásához
+
+/**
+ * generateTableHeader függvény
+ *
+ * Létrehozza a táblázat fejléc sorát (<tr>) és annak celláit (<th>) a megadott fejléc adatok alapján.
+ *
+ * @param {Object} headerData - Az objektum, amely tartalmazza a fejléc adatait (pl. column1, column2, column3, stb.).
+ * @param {HTMLElement} tableHeader - A táblázat <thead> eleme, amelybe a generált sor kerül.
+ */
 function generateTableHeader(headerData, tableHeader) {
     // Létrehozunk egy új sort (<tr>) a fejléc számára
     const headerRow = document.createElement('tr');
@@ -61,7 +69,14 @@ function generateTableHeader(headerData, tableHeader) {
 // Táblázat renderelése, beleértve a fejlécet és a törzset is
 
 
-// Adatsorok létrehozása for ciklussal
+/**
+ * rendertable függvény
+ *
+ * Generálja a táblázatot a megadott adatok alapján. Létrehozza a fejlécet és a törzs részét,
+ * majd feltölti a táblázatot a megadott adatsorokkal.
+ *
+ * @param {Array} data - Az adatok tömbje, melynek első eleme a fejléc adatait tartalmazza, a többi pedig az adatsorokat.
+ */
 function rendertable(data) {// meadunk egy data nevu parametert aminek majd az array erteket fogja felvenni
     const tableHeader = document.createElement('thead'); // Táblázat fejléc létrehozása
     table.appendChild(tableHeader); // Fejléc hozzáadása a táblázathoz
@@ -104,7 +119,14 @@ function rendertable(data) {// meadunk egy data nevu parametert aminek majd az a
 
 // Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
 rendertable(array)
-
+/**
+ * generateForm függvény
+ *
+ * Létrehozza és visszaadja az űrlapot, amely tartalmazza a fizika területének, az időszaknak,
+ * valamint az első és második tudós nevének bevitelére szolgáló mezőket. Minden mezőhöz tartozik egy hibajelzést megjelenítő elem is.
+ *
+ * @returns {HTMLFormElement} Az elkészített űrlap elem.
+ */
 function generateForm() {
     var form = document.createElement('form');
     form.id = 'form';
@@ -213,7 +235,15 @@ form.addEventListener('submit', function (e) {
     }
 });
 // Függvény az input mezők egyszerű érvényesítésére (ellenőrzi, hogy nem üres-e)
-
+/**
+ * simpleValidatecolumn függvény
+ *
+ * Ellenőrzi, hogy a megadott input mező nem üres-e. Ha az üres, megjeleníti a hozzá tartozó hibajelzést.
+ *
+ * @param {HTMLInputElement} inputelem - Az ellenőrizendő input mező.
+ * @param {string} errorMessage - A megjelenítendő hibaüzenet, ha az input mező üres.
+ * @returns {boolean} True, ha az input mező kitöltött; egyébként false.
+ */
 function simpleValidatecolumn(inputelem, errorMessage) { // Definiáljuk a simpleValidatecolumn függvényt
     let valid = true; // Definiáljuk a valid lokális változót true értékkel
     if (inputelem.value === '') { // Ha a paraméterben kapott beviteli mező üres
@@ -227,7 +257,16 @@ function simpleValidatecolumn(inputelem, errorMessage) { // Definiáljuk a simpl
     return valid; // Visszatér a valid változóval.
 }
 // Függvény, amely ellenőrzi, hogy legalább az egyik tudós mező ki van-e töltve
-
+/**
+ * secondValidation függvény
+ *
+ * Ellenőrzi, hogy legalább az egyik tudós input mező ki van-e töltve.
+ * Ha mindkettő üres, mindkét mezőhöz hibajelzést jelenít meg.
+ *
+ * @param {HTMLInputElement} scientist1element - Az első tudós input mező.
+ * @param {HTMLInputElement} scientist2element - A második tudós input mező.
+ * @returns {boolean} True, ha legalább az egyik mező ki van töltve; egyébként false.
+ */
 function secondValidation(scientist1element, scientist2element) {
     let valid = true
 
