@@ -32,72 +32,79 @@ const array = [ //tomb bevezetése
 ];
 
 
-const table = document.createElement('table'); // Új táblázat elem létrehozása
-document.body.appendChild(table); // A táblázat hozzáadása a dokumentum törzséhez
+const table = document.createElement('table'); // Táblázat létrehozása
+document.body.appendChild(table);
 
-const tableHeader = document.createElement('thead'); // Új táblázat fejlécelem létrehozása
-const headerRow = document.createElement('tr'); // Új sor létrehozása a fejléchez
-table.appendChild(tableHeader); // A fejlécelem hozzáadása a táblázathoz
-tableHeader.appendChild(headerRow); // A fejléc sor hozzáadása a fejléchez
+// Függvény a fejléc generálásához
+function generateTableHeader(headerData, tableHeader) {
+        // Létrehozunk egy új sort (<tr>) a fejléc számára
+    const headerRow = document.createElement('tr');
 
-// Fejléc cellák létrehozása és hozzáadása
-const headerCell1 = document.createElement('th'); // Új fejléc cella létrehozása
-headerCell1.innerHTML = array[0].column1; // Az első oszlop címének beállítása
-headerRow.appendChild(headerCell1); // Az első fejléc cella hozzáadása a fejléc sorhoz
+    // Végigiterálunk a fejléc objektum kulcsain
+    for (const key in headerData) {
+        // Létrehozunk egy fejléc cellát (<th>)
+        const headerCell = document.createElement('th');
+        // Beállítjuk a cella tartalmát a headerData adott kulcsához tartozó értékre
+        headerCell.innerHTML = headerData[key];
 
-const headerCell2 = document.createElement('th'); // Új fejléc cella létrehozása
-headerCell2.innerHTML = array[0].column2; // A második oszlop címének beállítása
-headerRow.appendChild(headerCell2); // A második fejléc cella hozzáadása a fejléc sorhoz
+        // Ha a kulcs 'column3', akkor két oszlopnyi szélességet állítunk be
+        if (key === 'column3') {
+            headerCell.colSpan = 2;
+        }
+        // Hozzáadjuk a fejléc cellát a fejléc sorhoz
+        headerRow.appendChild(headerCell);
+    }
+    tableHeader.appendChild(headerRow); // A kész fejléc sort hozzáadjuk a megadott <thead> elemhez
+}
 
-const headerCell3 = document.createElement('th'); // Új fejléc cella létrehozása
-headerCell3.innerHTML = array[0].column3; // A harmadik oszlop címének beállítása
-headerCell3.colSpan = 2; // A harmadik fejléc cella két oszlopot foglal el
-headerRow.appendChild(headerCell3); // A harmadik fejléc cella hozzáadása a fejléc sorhoz
 
-const tableBody = document.createElement('tbody'); // Új táblázat törzs elem létrehozása
-table.appendChild(tableBody); // A táblázat törzs hozzáadása a táblázathoz
+// Táblázat renderelése, beleértve a fejlécet és a törzset is
+
 
 // Adatsorok létrehozása for ciklussal
-// A rendertable függvény: csak a táblázat (az adatsorok) létrehozását tartalmazza
-function rendertable() {
-    const tableHeader = document.createElement('thead'); // Táblázat fejléc elem létrehozása
-    table.appendChild(tableHeader); // A fejléc (thead) hozzáadása a táblázathoz (table)
-    // Táblázat törzs elemének létrehozása
+function rendertable(){// A rendertable függvény: csak a táblázat (az adatsorok) létrehozását tartalmazzafunction rendertable() {
+    table.innerHTML = ''; 
+    const tableHeader = document.createElement('thead'); // Táblázat fejléc létrehozása
+    table.appendChild(tableHeader); // Fejléc hozzáadása a táblázathoz
 
-    const tableBody = document.createElement('tbody');  // Új törzsélem (<tbody>) létrehozása
-    table.appendChild(tableBody);                         // A törzs elem hozzáadása a táblázathoz
+    // A generateTableHeader meghívása, ahol az array[0] tartalmazza a fejléc adatait
+    generateTableHeader(array[0], tableHeader);
 
-    // Adatsorok létrehozása for ciklussal (az index 1-től indul, mert az index 0 a fejléc)
-    for (let i = 1; i < array.length; i++) {              // Végigiterál az adatsorokon
-        const row = document.createElement('tr');         // Új sor (<tr>) létrehozása az aktuális adatsorhoz
-        tableBody.appendChild(row);                         // A sor hozzáadása a törzs elemhez
+    const tableBody = document.createElement('tbody');  // Táblázat törzs elemének létrehozása
+    table.appendChild(tableBody);
 
-        const cell1 = document.createElement('td');        // Első cella (<td>) létrehozása
-        cell1.innerHTML = array[i].column1;                 // Az első cella tartalmának beállítása
-        row.appendChild(cell1);                             // Az első cella hozzáadása a sorhoz
+    // Adatsorok létrehozása (az index 1-től, mivel az index 0 a fejléc)
+    for (let i = 1; i < array.length; i++) {
+        const row = document.createElement('tr');        // Létrehozunk egy új sort (<tr>) az aktuális adatsor számára
+        tableBody.appendChild(row);                     // Hozzáadjuk az új sort a <tbody> elemhez
 
-        const cell2 = document.createElement('td');        // Második cella (<td>) létrehozása
-        cell2.innerHTML = array[i].column2;                 // A második cella tartalmának beállítása
-        row.appendChild(cell2);                             // A második cella hozzáadása a sorhoz
+        const cell1 = document.createElement('td');// Létrehozunk egy cellát (<td>) az első oszlop számára
+        cell1.innerHTML = array[i].column1;// Beállítjuk a cella tartalmát az aktuális adatsor 'column1' értékére
+        row.appendChild(cell1);// Hozzáadjuk a cellát a sorhoz
 
-        const cell3 = document.createElement('td');        // Harmadik cella (<td>) létrehozása
-        cell3.innerHTML = array[i].column3;                 // A harmadik cella tartalmának beállítása
-        row.appendChild(cell3);                             // A harmadik cella hozzáadása a sorhoz
+        const cell2 = document.createElement('td');                // Létrehozunk egy cellát a masodik oszlop számára
+        cell2.innerHTML = array[i].column2;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
+        row.appendChild(cell2);     // Hozzáadjuk a cellát a sorhoz
 
-        // Ha az adatsor tartalmaz negyedik oszlopot, létrehozza azt; egyébként a harmadik cella kitágul két oszlopra
+        const cell3 = document.createElement('td');// Létrehozunk egy cellát a harmadik oszlop számára
+        cell3.innerHTML = array[i].column3;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
+        row.appendChild(cell3);// Hozzáadjuk a cellát a sorhoz
+
+        // Ellenőrizzük, hogy az aktuális adatsor tartalmaz-e 'column4' értéket
         if (array[i].column4) {
-            const cell4 = document.createElement('td');   // Negyedik cella (<td>) létrehozása
-            cell4.innerHTML = array[i].column4;             // A negyedik cella tartalmának beállítása
-            row.appendChild(cell4);                         // A negyedik cella hozzáadása a sorhoz
+            const cell4 = document.createElement('td');            // Ha igen, létrehozunk egy negyedik cellát
+            cell4.innerHTML = array[i].column4;              // Beállítjuk a cella tartalmát a 'column4' értékre
+            row.appendChild(cell4);            // Hozzáadjuk a negyedik cellát a sorhoz
         } else {
-            cell3.colSpan = 2;                              // Ha nincs negyedik oszlop, a harmadik cella két oszlopot foglal el
+            cell3.colSpan = 2;            // Ha nincs 'column4', a harmadik cella két oszlopnyi szélességet foglal el
         }
     }
 }
 
 
+
 // Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
-rendertable();
+rendertable()
 
 // Eseménykezelő hozzáadása az űrlap submit eseményéhez
 document.getElementById('form').addEventListener('submit', function(e) {
@@ -118,30 +125,38 @@ document.getElementById('form').addEventListener('submit', function(e) {
    
    
     let valid = true;
+        // Ellenőrizzük, hogy a "Fizika területe" mező nincs-e üresen
+
     if (!simpleValidateField(subjectHtmlElement, "A terület kitöltése kötelező")) {
         valid = false;
     }
+        // Ellenőrizzük, hogy az "Időszak" mező nincs-e üresen
+
     if (!simpleValidateField(timeHtmlElement, "Az időszak kitöltése kötelező")) {
         valid = false;
     }
+        // Ellenőrizzük, hogy legalább egy tudós mező ki van-e töltve
+
     if (!secondValidation(scientist1HtmlElement, scientist2HtmlElement)) {
         valid = false;
     }
     if (valid) {
+        // Ellenőrizzük, hogy a "Fizika területe" mező nincs-e üresen
         const newRow = {
-            column1: subject,
-            column2: time,
-            column3: scientist1,
-            column4: scientist2
+            column1: subject, // "Fizika területe" értéke
+            column2: time, // "Időszak" értéke
+            column3: scientist1,// Első tudós neve
+            column4: scientist2  // Második tudós neve
         };
         array.push(newRow);//hozzadja az uj elemet
         table.innerHTML = ''// lenulláza a table erteket
-        table.appendChild(tableHeader);  // Újra hozzáadja a fejlécet a táblázathoz
         this.reset();//kiurit
         rendertable();//frissiti a tablázatot
 
     }
 });
+// Függvény az input mezők egyszerű érvényesítésére (ellenőrzi, hogy nem üres-e)
+
 function simpleValidateField(inputelem, errorMessage) { // Definiáljuk a simpleValidateField függvényt
     let valid = true; // Definiáljuk a valid lokális változót true értékkel
     if(inputelem.value === ''){ // Ha a paraméterben kapott beviteli mező üres
@@ -154,15 +169,19 @@ function simpleValidateField(inputelem, errorMessage) { // Definiáljuk a simple
     }
     return valid; // Visszatér a valid változóval.
 }
+// Függvény, amely ellenőrzi, hogy legalább az egyik tudós mező ki van-e töltve
+
 function secondValidation(scientist1element,scientist2element){
     let valid = true 
 
     if (scientist1element.value === '' && scientist2element.value === ''){
         const errorMessage = "Legalább egy tudóst meg kell adni"
+        // Ellenőrizzük a simpleValidateField függvénnyel az első tudós mezőt
 
         if (!simpleValidateField(scientist1element, errorMessage)){
         valid = false;
         }
+        // Ellenőrizzük a simpleValidateField függvénnyel a második tudós mezőt
         if (!simpleValidateField(scientist2element, errorMessage)){
         valid = false;
         }
