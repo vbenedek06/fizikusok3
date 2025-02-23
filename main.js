@@ -62,8 +62,7 @@ function generateTableHeader(headerData, tableHeader) {
 
 
 // Adatsorok létrehozása for ciklussal
-function rendertable(){// A rendertable függvény: csak a táblázat (az adatsorok) létrehozását tartalmazzafunction rendertable() {
-    table.innerHTML = ''; 
+function rendertable(data){// meadunk egy data nevu parametert aminek majd az array erteket fogja felvenni
     const tableHeader = document.createElement('thead'); // Táblázat fejléc létrehozása
     table.appendChild(tableHeader); // Fejléc hozzáadása a táblázathoz
 
@@ -74,26 +73,26 @@ function rendertable(){// A rendertable függvény: csak a táblázat (az adatso
     table.appendChild(tableBody);
 
     // Adatsorok létrehozása (az index 1-től, mivel az index 0 a fejléc)
-    for (let i = 1; i < array.length; i++) {
+    for (let i = 1; i < data.length; i++) {
         const row = document.createElement('tr');        // Létrehozunk egy új sort (<tr>) az aktuális adatsor számára
         tableBody.appendChild(row);                     // Hozzáadjuk az új sort a <tbody> elemhez
 
         const cell1 = document.createElement('td');// Létrehozunk egy cellát (<td>) az első oszlop számára
-        cell1.innerHTML = array[i].column1;// Beállítjuk a cella tartalmát az aktuális adatsor 'column1' értékére
+        cell1.innerHTML = data[i].column1;// Beállítjuk a cella tartalmát az aktuális adatsor 'column1' értékére
         row.appendChild(cell1);// Hozzáadjuk a cellát a sorhoz
 
         const cell2 = document.createElement('td');                // Létrehozunk egy cellát a masodik oszlop számára
-        cell2.innerHTML = array[i].column2;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
+        cell2.innerHTML = data[i].column2;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
         row.appendChild(cell2);     // Hozzáadjuk a cellát a sorhoz
 
         const cell3 = document.createElement('td');// Létrehozunk egy cellát a harmadik oszlop számára
-        cell3.innerHTML = array[i].column3;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
+        cell3.innerHTML = data[i].column3;// Beállítjuk a cella tartalmát az aktuális adatsor 'column2' értékére
         row.appendChild(cell3);// Hozzáadjuk a cellát a sorhoz
 
         // Ellenőrizzük, hogy az aktuális adatsor tartalmaz-e 'column4' értéket
-        if (array[i].column4) {
+        if (data[i].column4) {
             const cell4 = document.createElement('td');            // Ha igen, létrehozunk egy negyedik cellát
-            cell4.innerHTML = array[i].column4;              // Beállítjuk a cella tartalmát a 'column4' értékre
+            cell4.innerHTML = data[i].column4;              // Beállítjuk a cella tartalmát a 'column4' értékre
             row.appendChild(cell4);            // Hozzáadjuk a negyedik cellát a sorhoz
         } else {
             cell3.colSpan = 2;            // Ha nincs 'column4', a harmadik cella két oszlopnyi szélességet foglal el
@@ -104,7 +103,7 @@ function rendertable(){// A rendertable függvény: csak a táblázat (az adatso
 
 
 // Meghívjuk a rendertable függvényt, hogy az adatsorok (táblázat) generálódjanak
-rendertable()
+rendertable(array)
 
 // Eseménykezelő hozzáadása az űrlap submit eseményéhez
 document.getElementById('form').addEventListener('submit', function(e) {
@@ -151,7 +150,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
         array.push(newRow);//hozzadja az uj elemet
         table.innerHTML = ''// lenulláza a table erteket
         this.reset();//kiurit
-        rendertable();//frissiti a tablázatot
+        rendertable(array);//frissiti a tablázatot
 
     }
 });
